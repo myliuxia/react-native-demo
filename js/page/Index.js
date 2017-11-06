@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { PageRoute } from '../App.js';
 import {CommonStyles,CommonColors } from '../CommonStyles';
-import TitleButton,{IconButton} from "../widget/TitleButton";
+import {IconButton} from "../widget/TitleButton";
 import {SwiperView} from "../widget/Swiper";
 import ScrollVertical from "../widget/ScrollVertical";
 import {MenuButton} from '../widget/MenuButton';

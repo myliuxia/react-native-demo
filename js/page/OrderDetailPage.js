@@ -6,13 +6,12 @@ import {
     ScrollView,
     Dimensions,
     TouchableOpacity,
-    TextInput,
     WebView
 } from 'react-native';
 import { PageRoute } from '../App.js';
 import {CommonStyles,CommonColors } from '../CommonStyles';
 import { GoBackButton } from "../widget/TitleButton";
-import { BuyModel,SellModel,DetailWebModel } from "../widget/BuyAndSellModal";
+import { BuyModel,SellModel } from "../widget/BuyAndSellModal";
 import {request,requestWebMoblie,checkLoginStateOnline} from '../api/Server';
 import { protocalPath } from '../api/protocalPath';
 import {showAlert} from '../CommonFunctions';

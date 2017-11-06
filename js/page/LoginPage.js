@@ -5,15 +5,11 @@ import {
     StyleSheet,
     Image,
     TextInput,
-    Alert,
-    DeviceEventEmitter,
     TouchableHighlight
 } from 'react-native';
 
 import { protocalPath } from '../api/protocalPath';
-import { CommonStyles } from "../CommonStyles";
 import { showAlert } from "../CommonFunctions";
-import { GoBackButton } from "../widget/TitleButton";
 import RadiusButton from "../widget/RadiusButton";
 import { request } from '../api/Server';
 import { PageRoute } from "../App";

@@ -7,8 +7,7 @@ import {
     TouchableOpacity,
     Dimensions
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import { CommonStyles, CommonColors } from '../CommonStyles';
+import { CommonStyles } from '../CommonStyles';
 import RefreshListView, {RefreshState} from 'react-native-refresh-list-view';
 import { PageRoute } from '../App.js';
 import {IconButton} from "../widget/TitleButton";

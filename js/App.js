@@ -10,11 +10,7 @@ import {
     TabNavigator
 } from 'react-navigation';
 
-import { request } from './api/Server';
-import { protocalPath } from './api/protocalPath';
-
 import Index from './page/Index';
-import OrderPage from './page/OrderPage';
 import NewsPage from './page/NewsPage';
 import UserPage from './page/UserPage';
 import OrderDetailPage from './page/OrderDetailPage';
