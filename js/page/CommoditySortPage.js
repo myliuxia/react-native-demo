@@ -3,15 +3,12 @@ import {
     Text,
     View,
     StyleSheet,
-    Image,
     TouchableOpacity,
     ScrollView,
     FlatList,
     Dimensions
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
 import { CommonStyles } from '../CommonStyles';
-import RefreshListView, {RefreshState} from 'react-native-refresh-list-view';
 import {PageRoute} from "../App";
 import { GoBackButton } from "../widget/TitleButton";
 import { protocalPath } from '../api/protocalPath';

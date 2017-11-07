@@ -3,7 +3,6 @@ import {
     WebView,
     View
 } from 'react-native';
-import { PageRoute } from "../App";
 import {CommonStyles} from '../CommonStyles';
 import {GoBackButton} from '../widget/TitleButton'
 export default class WebViewPage extends Component{

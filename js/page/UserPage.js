@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 import {
-    Text,
     View,
-    Image,
     DeviceEventEmitter,
     StyleSheet,
-    TouchableHighlight,
     ScrollView
 } from 'react-native';
-import { CommonStyles } from '../CommonStyles';
-import RadiusButton from '../widget/RadiusButton';
-import { GoBackButton } from "../widget/TitleButton";
 import ReportQueryPage from './userInfo/ReportQueryPage';
 import UserTopHalfPartPage from './userInfo/UserTopHalfPartPage';
 import SubscriptionAndPickUpPage from './userInfo/SubscriptionAndPickUpPage';
