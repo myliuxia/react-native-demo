@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import {
     Text,
     View,
+    Image,
     StyleSheet,
+    TouchableOpacity,
     Picker,
     TextInput,
 } from 'react-native';
@@ -11,6 +13,8 @@ import { CommonStyles } from '../../../CommonStyles';
 import { GoBackButton } from '../../../widget/TitleButton';
 import { RedRadiusButton } from '../../../widget/RadiusButton'
 import { GrayRadiusButton } from '../../../widget/RadiusButton'
+import { request } from '../../../api/Server';
+import { protocalPath } from '../../../api/protocalPath';
 
 export default class BalanceEnquiryPage extends Component {
     constructor() {

@@ -1,6 +1,7 @@
 //持仓汇总
 import React, { Component } from 'react';
 import {
+    AppRegistry,
     FlatList, StyleSheet,
     Text,
     View,
@@ -10,6 +11,7 @@ import { CommonStyles } from '../../../CommonStyles';
 import { showAlert } from '../../../CommonFunctions';
 import { GoBackButton } from "../../../widget/TitleButton";
 import { request } from '../../../api/Server';
+import { PageRoute } from "../../../App";
 import { protocalPath } from '../../../api/protocalPath';
 export default class PositionSummaryPage extends Component {
     constructor() {

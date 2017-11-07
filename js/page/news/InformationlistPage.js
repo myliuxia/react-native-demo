@@ -5,7 +5,9 @@ import {
     StyleSheet,
     Image,
     TouchableOpacity,
+    ScrollView
 } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 import { CommonStyles } from '../../CommonStyles';
 import RefreshListView, {RefreshState} from 'react-native-refresh-list-view';
 import { GoBackButton } from "../../widget/TitleButton";

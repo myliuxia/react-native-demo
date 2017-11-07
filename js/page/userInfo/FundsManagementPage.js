@@ -6,8 +6,11 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
+import { CommonStyles } from '../../CommonStyles';
 import { PageRoute } from "../../App";
 import { checkLoginAndNavigate } from "../../api/Server";
+import FundsQueryPage from './FundsManagement/FundsQueryPage';
+
 
 
 // 委托页面对外默认组件
