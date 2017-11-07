@@ -1,9 +1,8 @@
 //个人信息
-import React, { Component } from 'react';
+import React from 'react';
 import {
     Text,
     View,
-    Image,
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
@@ -12,7 +11,6 @@ import { PageRoute } from "../../../App";
 import { CommonStyles } from '../../../CommonStyles';
 import { showAlert, showConfirm } from '../../../CommonFunctions';
 import { GoBackButton } from "../../../widget/TitleButton";
-import UserPage from '../../UserPage';
 import { request } from '../../../api/Server';
 
 export default class UserInfoPage extends React.Component {

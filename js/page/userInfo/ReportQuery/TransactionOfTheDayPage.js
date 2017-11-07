@@ -1,6 +1,6 @@
 //当日成交
 import React, { Component } from 'react';
-import { AppRegistry, FlatList, StyleSheet, Text, View ,Image} from 'react-native';
+import { FlatList, StyleSheet, Text, View ,Image} from 'react-native';
 import { CommonStyles } from '../../../CommonStyles';
 import { showAlert } from '../../../CommonFunctions';
 import { GoBackButton } from "../../../widget/TitleButton";

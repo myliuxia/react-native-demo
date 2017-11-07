@@ -14,11 +14,9 @@ import {
     Modal
 } from 'react-native';
 import { GoBackButton } from '../../../widget/TitleButton';
-import { StackNavigator } from 'react-navigation';
 import { CommonStyles } from '../../../CommonStyles';
 import { showAlert } from '../../../CommonFunctions';
-import RefreshListView, { RefreshState } from 'react-native-refresh-list-view';
-import { PageRoute } from "../../../App";
+import { RefreshState } from 'react-native-refresh-list-view';
 import { request } from '../../../api/Server';
 import { protocalPath } from '../../../api/protocalPath';
 // 委托页面对外默认组件
