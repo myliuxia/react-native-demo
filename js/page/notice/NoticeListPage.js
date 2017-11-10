@@ -41,6 +41,7 @@ export default class NoticeListPage extends React.Component{
         this.setState({
             refreshState: RefreshState.HeaderRefreshing,
             currentPage: 1,
+            dataList: [],
         })
 
         this.getNoticeList();

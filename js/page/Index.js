@@ -8,7 +8,8 @@ import {
     Text,
     ScrollView,
     TouchableOpacity,
-    InteractionManager
+    InteractionManager,
+    FlatList
 } from 'react-native';
 import { PageRoute } from '../App.js';
 import {CommonStyles,CommonColors } from '../CommonStyles';
@@ -201,13 +202,13 @@ export class IndexHotCommodity extends React.Component{
         return(
             <View style={{width:width,marginTop:10,}}>
                 <View style={hotStyles.hotTitle}><Text style={hotStyles.hotTitleText}>热门商品</Text></View>
-                <RefreshListView
+                <FlatList
                     keyExtractor={this._keyExtractor}
+                    numColumns={2}
                     contentContainerStyle={hotStyles.container}
                     data = {this.state.hotList}
                     renderItem={({item}) => <HotCommodityItem navigation={this.props.navigation} data={item} />}
-                    refreshState={this.state.refreshState}
-                    ItemSeparatorComponent = {() => <View style={{height:0}}/>}
+
                 />
             </View>
         )
@@ -244,10 +245,11 @@ class HotCommodityItem extends React.Component{
 const hotStyles = StyleSheet.create({
     container:{
         flex:1,
-        flexDirection:'row',
+        //flexDirection:'row',
         backgroundColor: CommonColors.ThemeBgColor,
-        flexWrap:'wrap',
-        justifyContent:'center',
+        //flexWrap:'wrap',
+        //justifyContent:'center',
+        paddingHorizontal:5,
     },
     hotTitle:{
         backgroundColor:'#FFFFFF22',
