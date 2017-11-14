@@ -7,7 +7,7 @@ import {
     TouchableOpacity,
     Dimensions
 } from 'react-native';
-import { CommonStyles } from '../CommonStyles';
+import { CommonStyles ,CommonColors} from '../CommonStyles';
 import RefreshListView, {RefreshState} from 'react-native-refresh-list-view';
 import { PageRoute } from '../App.js';
 import {IconButton} from "../widget/TitleButton";
@@ -56,14 +56,6 @@ export default class NewsPage extends React.Component {
         ),
     });
 
-    //顶部刷新
-    onHeaderRefresh = ()=>{
-
-    }
-    //底部刷新
-    onFooterRefresh = ()=>{
-
-    }
     //改变列表样式
     _changeList = ()=>{
       if(this.state.liststyle==1){
@@ -78,6 +70,7 @@ export default class NewsPage extends React.Component {
         });
       }
     }
+
     _changesorthuanshou=()=>{
       if('换手率'!=this.state.sortcolmn){
           this.setState({
@@ -190,7 +183,7 @@ export default class NewsPage extends React.Component {
     render(){
         const { navigate } = this.props.navigation;
         return (
-                <View>
+                <View style={styles.container}>
                   <View style={styles.sortview}>
                       <TouchableOpacity delayLongPress={20} delayPressIn ={20} onPress={this._changesorthuanshou}>
                           <SortView data={{text:'换手率',sortcolmn:this.state.sortcolmn,sortway:this.state.sortway}} />
@@ -205,7 +198,7 @@ export default class NewsPage extends React.Component {
                           <SortView data={{text:'价格',sortcolmn:this.state.sortcolmn,sortway:this.state.sortway}} />
                       </TouchableOpacity>
                       <TouchableOpacity delayLongPress={20} delayPressIn ={20} onPress={this._changeList}>
-                          <Image style={{width:30,height:30}} source={this.state.iconpath}/>
+                          <Image style={{width:20,height:20,tintColor:CommonColors.ActiveColor}} source={this.state.iconpath}/>
                       </TouchableOpacity>
                   </View>
                   <Listpage {...this.props} data={{liststyle:this.state.liststyle,sortcolmn:this.state.sortcolmn,sortway:this.state.sortway}}  />
@@ -221,6 +214,7 @@ class SortView extends Component{
             icon:require('../img/icon/sort.png'),
             sortcolmn:props.data.sortcolmn,
             sortway:props.data.sortway,
+            color:'#FFFFFF',
         };
     }
     componentWillReceiveProps(nextProps){
@@ -229,21 +223,33 @@ class SortView extends Component{
             this.state.sortcolmn = nextProps.data.sortcolmn;
             this.state.sortway = nextProps.data.sortway;
             if('desc'==nextProps.data.sortway){
-              this.state.icon = require('../img/icon/sort-desc.png');
+                this.setState({
+                    icon:require('../img/icon/sort-desc.png'),
+                    color:CommonColors.ActiveColor,
+                })
             }else if('asc'==nextProps.data.sortway){
-              this.state.icon = require('../img/icon/sort-asc.png');
+                this.setState({
+                    icon:require('../img/icon/sort-asc.png'),
+                    color:CommonColors.ActiveColor,
+                })
             }else if(''==nextProps.data.sortway){
-              this.state.icon = require('../img/icon/sort.png');
+                this.setState({
+                    icon:require('../img/icon/sort.png'),
+                    color:'white',
+                })
             }
         }else{
-            this.state.icon = require('../img/icon/sort.png');
+            this.setState({
+                icon:require('../img/icon/sort.png'),
+                color:'white',
+            })
         }
     }
     render(){
         return(
           <View style={{flexDirection:'row'}}>
-            <Text style={{color:'white',fontSize:16}}>{this.state.text}</Text>
-            <Image style={{height:20,width:10,marginLeft:6}} source={this.state.icon}/>
+            <Text style={{color:this.state.color,fontSize:16}}>{this.state.text}</Text>
+            <Image style={{height:18,width:18}} source={this.state.icon}/>
           </View>
         )
     }
@@ -258,26 +264,26 @@ class Listpage extends Component{
           sortway:props.data.sortway,
           listdata:[],
           refreshState: RefreshState.Idle,
-          correntPage:1,
-          pageSize :10,
+          currentPage:1,
+          pageSize :8,
       };
   }
-  componentWillMount(){
-    console.log("----------------------");
-    this.getData(this.state.sortcolmn,this.state.sortway,this.state.correntPage,this.state.pageSize).then((responseJson)=>{
-      console.log("success");
-      this.setState({
-          listdata:responseJson,
-      })
-      if(responseJson.length<this.state.pageSize){
-        this.setState({
-          refreshState: RefreshState.NoMoreData,
-        })
-      }
-    }).catch((error)=>{
-      showAlert(error.toString());
-    });
+
+  componentDidMount() {
+      //加载数据
+      this.onHeaderRefresh()
   }
+  componentWillMount(){
+
+  }
+
+    /**
+     * 数据加载
+     * @param sortcolmn 排序依据
+     * @param sortway 排序；类型
+     * @param page 查询页码
+     * @param pageSize 每页条数
+     */
   getData = (sortcolmn,sortway,page,pageSize)=>{
     let orderby = '';
     if('换手率'==sortcolmn){
@@ -295,46 +301,51 @@ class Listpage extends Component{
       orderBy:orderby,
       orderType :sortway
     })
-    let result = requestWebMoblie(protocalPath.commodityList,param).then((responseJson)=>{
+    //let param1 = "currentPage="+page+"&pageSize="+pageSize+"&orderBy="+orderby+"&orderType="+sortway;
+    let result = requestWebMoblie(protocalPath.commodityList,param);
+    result.then((responseJson)=>{
+        console.log("++++");
         console.log(responseJson);
-        for(let i=0;i<responseJson.length;i++){
-          responseJson[i].key = responseJson[i].id;
-          if(responseJson[i].pictures.length>0){
-            responseJson[i].url={uri:img_server_url+responseJson[i].pictures[0].pictureURL}
-          }else{
-            responseJson[i].url={uri:img_server_url+'null'}
-          }
+        if(responseJson){
+            for(let i=0;i<responseJson.length;i++){
+                responseJson[i].key = responseJson[i].id;
+                if(responseJson[i].pictures.length>0){
+                    responseJson[i].url={uri:img_server_url+responseJson[i].pictures[0].pictureURL}
+                }else{
+                    responseJson[i].url={uri:img_server_url+'null'}
+                }
+            }
+            //console.log(responseJson);
+            this.setState({
+                currentPage:this.state.currentPage+1,
+                listdata:[...this.state.listdata,...responseJson],
+                refreshState: responseJson.length < this.state.pageSize ? RefreshState.NoMoreData : RefreshState.Idle,
+            })
+
+        }else{
+            this.setState({
+                refreshState:RefreshState.Failure,
+            })
         }
-        console.log(responseJson);
-        return responseJson;
 
     }).catch((error)=>{
-      showAlert(error.toString());
-    });
-    return result;
+        showAlert(error.toString());
+        this.setState({
+            refreshState:RefreshState.Failure,
+        })
+    }).done();
+
   }
 
+  //属性改变触发事件
   componentWillReceiveProps(nextProps){
     this.refs._list.refs._flatlist.scrollToOffset({animated: true, offset: 0});
     if(nextProps.data.sortcolmn!=this.state.sortcolmn||nextProps.data.sortway!=this.state.sortway){
-      this.getData(nextProps.data.sortcolmn,nextProps.data.sortway,1,this.state.pageSize).then((responseJson)=>{
-        this.setState({
-            listdata:responseJson,
-            refreshState: RefreshState.Idle,
-        })
-        if(responseJson.length<this.state.pageSize){
-          this.setState({
-            refreshState: RefreshState.NoMoreData,
-          })
-        }
-      }).catch((error)=>{
-        showAlert(error.toString());
-      });
       this.setState({
-          correntPage:1,
           sortcolmn:nextProps.data.sortcolmn,
           sortway:nextProps.data.sortway
-      });
+      })
+      this.onHeaderRefresh();
     }
     if(nextProps.data.liststyle!=this.state.liststyle){
       this.setState({
@@ -345,41 +356,23 @@ class Listpage extends Component{
   //顶部刷新
   onHeaderRefresh = ()=>{
     console.log("refresh");
-      this.setState({refreshState: RefreshState.HeaderRefreshing});
-      this.getData(this.state.sortcolmn,this.state.sortway,1,this.state.pageSize).then((responseJson)=>{
-        this.setState({
-            correntPage:1,
-            listdata:responseJson,
-            refreshState: RefreshState.Idle,
-        })
-        if(responseJson.length<this.state.pageSize){
-          this.setState({
-            refreshState: RefreshState.NoMoreData,
-          })
-        }
-      }).catch((error)=>{
-        showAlert(error.toString());
-      });
+      this.setState({
+          currentPage: 1,
+          listdata: [],
+          refreshState: RefreshState.HeaderRefreshing,
+      })
+      this.getData(this.state.sortcolmn,this.state.sortway,1,this.state.pageSize);
+
+
   }
   //底部刷新
   onFooterRefresh = ()=>{
       this.setState({refreshState: RefreshState.FooterRefreshing})
-      this.getData(this.state.sortcolmn,this.state.sortway,this.state.correntPage+1,this.state.pageSize).then((responseJson)=>{
-        let newdata = [...this.state.listdata,...responseJson]
-        this.setState({
-            correntPage:this.state.correntPage+1,
-            listdata:newdata,
-            refreshState: RefreshState.Idle,
-        })
-        if(responseJson.length<this.state.pageSize){
-          this.setState({
-            refreshState: RefreshState.NoMoreData,
-          })
-        }
-      }).catch((error)=>{
-        showAlert(error.toString());
-      });
+
+      this.getData(this.state.sortcolmn,this.state.sortway,this.state.currentPage,this.state.pageSize);
+
   }
+
   render() {
       if(this.state.liststyle==1){
         return this.render1();
@@ -390,29 +383,31 @@ class Listpage extends Component{
 
   render1(){
       return(
-        <View style = {{height:height-120,backgroundColor: '#252424',}}>
+        <View style = {{flex:1,}}>
         <RefreshListView
-            style={{backgroundColor:"#252424"}}
+            keyExtractor={this._keyExtractor}
             contentContainerStyle={styles.tablecaontainer}
             ref="_list"
               onEndReachedThreshold={0.1}
             listRef="_flatlist"
             data = {this.state.listdata}
+            numColumns={2}
             renderItem={({item}) => <NewsViewTable {...this.props} data={item} />}
             refreshState={this.state.refreshState}
             onHeaderRefresh={this.onHeaderRefresh}//顶部刷新
             onFooterRefresh={this.onFooterRefresh}//底部刷新
-            ItemSeparatorComponent = {() => <View style={{height:4}}/>}
+            ItemSeparatorComponent = {() => <View style={{height:0}}/>}
         />
         </View>
       )
   }
   render2(){
       return(
-        <View style = {{height:height-120,backgroundColor: '#252424',}}>
+        <View style = {{flex:1}}>
         <RefreshListView
-            contentContainerStyle={styles.listcontainer}
+            keyExtractor={this._keyExtractor}
             ref="_list"
+            numColumns={1}
             onEndReachedThreshold={0.1}
             listRef="_flatlist"
             data = {this.state.listdata}
@@ -420,11 +415,13 @@ class Listpage extends Component{
             refreshState={this.state.refreshState}
             onHeaderRefresh={this.onHeaderRefresh}//顶部刷新
             onFooterRefresh={this.onFooterRefresh}//底部刷新
-            ItemSeparatorComponent = {() => <View style={{height:4}}/>}
+            ItemSeparatorComponent = {() => <View style={{height:0}}/>}
         />
         </View>
       )
   }
+
+    _keyExtractor = (item, index) => item.commodityId;
 
 }
 
@@ -440,8 +437,8 @@ class NewsViewTable extends Component{
     render() {
         let itemData = this.props.data;
         return(
-          <View style={styles.tablenew}>
-              <TouchableOpacity delayLongPress={20} onPress={this._changepage}>
+          <TouchableOpacity style={styles.tablenew} delayLongPress={20} onPress={this._changepage}>
+            <View>
               <View style={styles.tablepicview}>
                 <Image style={styles.tablenewspic} source={itemData.url}/>
               </View>
@@ -450,8 +447,8 @@ class NewsViewTable extends Component{
                 <Text umberOfLines={2} style={styles.tablecommodityid}>商品编号:{itemData.commodityId}</Text>
                 <Text umberOfLines={2} style={styles.tableprice}>￥{itemData.price}</Text>
               </View>
-              </TouchableOpacity>
-          </View>
+            </View>
+          </TouchableOpacity>
         )
     }
 }
@@ -482,11 +479,16 @@ class NewsViewList extends Component{
     }
 }
 const styles = StyleSheet.create({
+    container:{
+        flex: 1,
+        flexDirection:'column',
+        backgroundColor: CommonColors.ThemeBgColor,
+    },
   sortview:{
     height:40,
-    backgroundColor:"#525050",
+    backgroundColor:"#FFFFFF22",
     borderBottomWidth:1,
-    borderColor:'rgb(102, 102, 102)',
+    borderColor:CommonColors.BorderColor,
     flexDirection:'row',
     justifyContent:'space-between',
     alignItems:'center',
@@ -494,83 +496,73 @@ const styles = StyleSheet.create({
     paddingRight:8,
   },
   tablecaontainer:{
-      backgroundColor: '#252424',
-      flexDirection:'row',
-      flexWrap:'wrap',
-      justifyContent:'space-around',
-      paddingBottom:45,
-      paddingTop:5,
+      //flexDirection:'row',
+      //flexWrap:'wrap',
+      //justifyContent:'center',
+      paddingHorizontal:5,
   },
   tablenew:{
-    width:width/2 -10,
-    backgroundColor:"#525050",
-    borderTopWidth:1,
-    borderBottomWidth:1,
-    borderColor:'rgb(102, 102, 102)',
-    borderLeftWidth:1,
-    borderRightWidth:1
+      width:(width-30)/2,
+      backgroundColor:'#FFFFFF11',
+      borderRadius:2,
+      borderWidth:1,
+      borderColor:CommonColors.BorderColor,
+      padding:4,
+      margin:5,
   },
   tablepicview:{
     alignItems :'center',
-    width: width/2-10,
-    height: width/2-10,
+    width:(width-50)/2,
+    height:(width-50)/2,
   },
   tablenewspic: {
-      width: width/2-10,
-      height: width/2-10,
+    width:(width-50)/2,
+    height:(width-50)/2,
   },
   tablecommodityname:{
     color:'white',
-    fontSize:18,
-    paddingLeft:4,
-    paddingRight:4
+    fontSize:16,
+    height:20,
   },
   tablepriceview:{
     flexDirection:'row',
     justifyContent:'space-between',
-    paddingBottom:2,
-    paddingLeft:4,
-    paddingRight:4
+    height:20,
   },
   tablecommodityid:{
     color:'#999999'
   },
   tableprice:{
-    fontSize:15,
-    color:'red'
-  },
-  listcontainer:{
-    backgroundColor: '#252424',
-    paddingBottom:45
+    fontSize:14,
+    color:CommonColors.red,
   },
   listview:{
-    backgroundColor: '#525050',
     flexDirection:'row',
     flex:1,
-    height:150,
+    height:100,
     borderBottomWidth:1,
-    borderColor:'rgb(102, 102, 102)',
-    paddingTop:10,
-    paddingLeft:10
+    borderBottomColor:CommonColors.BorderColor,
+    padding:10,
   },
   listimage:{
-    width: width*11/30,
-    height: width*11/30
+    width: 80,
+    height: 80
   },
   Listcontent:{
-    marginLeft:7
+    flex:1,
+    flexDirection:'column',
+    justifyContent:'space-between',
+    paddingLeft:10,
   },
   listcommodityname:{
     color:'white',
-    fontSize:25,
+    fontSize:16,
   },
   listcommodityid:{
-    marginTop:53,
     color:'#999999',
-    fontSize:17,
   },
   listcommodityprice:{
-    color:'red',
-    fontSize:17,
+    color:CommonColors.red,
+    fontSize:14,
   }
 });
