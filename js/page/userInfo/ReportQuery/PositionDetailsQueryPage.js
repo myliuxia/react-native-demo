@@ -1,6 +1,6 @@
 //持仓明细
 import React, { Component } from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { AppRegistry, FlatList, StyleSheet, Text, View } from 'react-native';
 import { CommonStyles } from '../../../CommonStyles';
 import { showAlert } from '../../../CommonFunctions';
 import { GoBackButton } from "../../../widget/TitleButton";

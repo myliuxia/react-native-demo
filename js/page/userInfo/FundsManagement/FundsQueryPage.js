@@ -1,11 +1,14 @@
 //资金查询
-import React from 'react';
+import React, { Component } from 'react';
 import {
     Text,
     View,
+    Image,
     StyleSheet,
+    TouchableOpacity,
 } from 'react-native';
 import { CommonStyles } from '../../../CommonStyles';
+import { showAlert } from '../../../CommonFunctions';
 import { GoBackButton } from "../../../widget/TitleButton";
 import { request } from '../../../api/Server';
 import { protocalPath } from '../../../api/protocalPath';

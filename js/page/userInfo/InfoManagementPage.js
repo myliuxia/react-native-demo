@@ -6,9 +6,11 @@ import {
     StyleSheet,
     TouchableOpacity,
 } from 'react-native';
+import { CommonStyles } from '../../CommonStyles';
 import { PageRoute } from "../../App";
 import { checkLoginAndNavigate } from "../../api/Server";
 
+import UserInfoPage from './InfoManagement/UserInfoPage';
 
 
 

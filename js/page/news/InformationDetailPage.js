@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
+    Text,
     View,
     StyleSheet,
+    Image,
+    TouchableOpacity,
+    ScrollView,
+    FlatList,
     WebView,
     Dimensions
 } from 'react-native';
+import { StackNavigator } from 'react-navigation';
 import { CommonStyles } from '../../CommonStyles';
+import RefreshListView, {RefreshState} from 'react-native-refresh-list-view';
+import {PageRoute} from "../../App";
 import { GoBackButton } from "../../widget/TitleButton";
+import { protocalPath } from '../../api/protocalPath';
 import { server_ip_port,img_server_url } from '../../api/Server.js';
 // 委托页面对外默认组件
 

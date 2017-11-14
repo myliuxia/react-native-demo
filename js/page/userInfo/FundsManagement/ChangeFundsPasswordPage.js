@@ -4,7 +4,10 @@ import {
     Text,
     View,
     StyleSheet,
+    Image,
     TextInput,
+    Alert,
+    DeviceEventEmitter
 } from 'react-native';
 
 import { CommonStyles } from '../../../CommonStyles';
