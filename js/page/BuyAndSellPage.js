@@ -374,6 +374,7 @@ class Listpage extends Component{
   }
 
   render() {
+
       if(this.state.liststyle==1){
         return this.render1();
       }else{
@@ -388,11 +389,11 @@ class Listpage extends Component{
             keyExtractor={this._keyExtractor}
             contentContainerStyle={styles.tablecaontainer}
             ref="_list"
-              onEndReachedThreshold={0.1}
+            onEndReachedThreshold={0.1}
             listRef="_flatlist"
             data = {this.state.listdata}
             numColumns={2}
-            renderItem={({item}) => <NewsViewTable {...this.props} data={item} />}
+            renderItem={({item}) => <NewsViewTable {...this.props} data={item} /> }
             refreshState={this.state.refreshState}
             onHeaderRefresh={this.onHeaderRefresh}//顶部刷新
             onFooterRefresh={this.onFooterRefresh}//底部刷新
