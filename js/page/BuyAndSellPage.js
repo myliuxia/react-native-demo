@@ -408,7 +408,6 @@ class Listpage extends Component{
         <RefreshListView
             keyExtractor={this._keyExtractor}
             ref="_list"
-            numColumns={1}
             onEndReachedThreshold={0.1}
             listRef="_flatlist"
             data = {this.state.listdata}
